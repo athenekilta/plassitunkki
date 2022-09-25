@@ -16,9 +16,17 @@ router.post('/new_seating', async (req, res) => {
 })
 
 router.get('/:accessToken', async (req, res) => {
+  const token = req.params.accessToken
   const seating = await db.Seating.scope('readOnly').findOne({ where: {
-    accessToken: req.params.accessToken,
+    accessToken: token,
   }})
+  if (!seating) {
+    res.status(404)
+    res.json({
+      error: `no Seating found with accessToken ${token}`
+    })
+    return
+  }
   res.json(seating)
 })
 
