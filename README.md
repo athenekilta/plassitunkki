@@ -13,3 +13,13 @@ In `server` directory:
 npm install
 npm run dev
 ```
+
+## API documentation
+```
+GET /:accessToken
+Returns the information of the Seating
+
+POST /new_seating
+Parameters: `name`
+Creates a new Seating object and returns its data
+```
