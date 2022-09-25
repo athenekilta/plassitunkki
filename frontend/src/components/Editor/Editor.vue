@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <UploadFile />
-    <EditUploadedFile />
+    <EditUploadedFile :csvAttributes="this.csvAttributes" :csvText="this.csvText"/>
   </div>
 </template>
 
@@ -10,6 +10,12 @@ import EditUploadedFile from './EditUploadedFile.vue';
 import UploadFile from './UploadFile.vue';
 export default {
     name: "MainPage",
+    data() {
+      return {
+        csvAttributes: ["test1", "test2", "test3"],
+        csvText: "moi,miten,menee\nmoi2,miten2,menee2"
+      }
+    },
     components: { EditUploadedFile, UploadFile }
 }
 </script>

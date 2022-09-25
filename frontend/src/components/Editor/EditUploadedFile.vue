@@ -53,11 +53,14 @@ export default {
         });
     },
     },
+    props: {
+        csvAttributes: Array,
+        csvText: String
+    },
     data() {
         return {
-            csvAttributes: ["1", "2", "3"],
             file: '',
-            text: 'moi'
+            text: this.csvText
         }
     }
 }
