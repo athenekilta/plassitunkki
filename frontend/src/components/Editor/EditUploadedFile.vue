@@ -1,6 +1,6 @@
 <template>
     <div class="edit-container">
-        <div class="edit-attributes">
+        <div class="edit-attributes" v-if="text">
             <div class="input-container">
                 <label for="first_name">Valitse kenttä, jossa on etunimi</label>
                 <select name="etunimi" id="first_name" :value="firstName" v-model="firstName" @change="parseData()">
@@ -60,26 +60,26 @@ export default {
         updateUsers() {
             const parsedUsers = JSON.parse(JSON.stringify(this.users))
             console.log(parsedUsers)
-            this.text = this.parseData(parsedUsers)  
+            this.firstName = this.csvAttributes[0]
+            this.lastName = this.csvAttributes[1]
+            this.preference = this.csvAttributes[2]
+            this.attributes = this.csvAttributes
+            this.text = this.parseData(parsedUsers) 
+            this.$refs.resize.dispatchEvent(new Event('keyup')); 
         }
     },
-    mounted() {
-        this.$nextTick(() => {
-            this.$refs.resize.dispatchEvent(new Event('keyup'));
-        });
-    },
     props: {
-        csvAttributes: Array,
-        chosenCsvAttributes: Array,
-        users: Array
+        users: Array,
+        csvAttributes: Array
     },
     data() {
         return {
             file: '',
             text: '',
-            firstName: this.chosenCsvAttributes[0],
-            lastName: this.chosenCsvAttributes[1],
-            preference: this.chosenCsvAttributes[2],
+            firstName: '',
+            lastName: '',
+            preference: '',
+            attributes: []
         }
     },
     watch: {

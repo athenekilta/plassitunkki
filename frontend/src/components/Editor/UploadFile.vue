@@ -38,7 +38,7 @@ methods: {
                 arr.push(json_arr_in)
             }
 
-            self.$emit('newData', arr)
+            self.$emit('newData', [arr, attributes])
         }
     })
     },
