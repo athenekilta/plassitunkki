@@ -56,6 +56,11 @@ export default {
                 let length = Math.max(...(text.map(el => el.length)));
                 area.style.width = length*9 + 'px';
             }
+        },
+        updateUsers() {
+            const parsedUsers = JSON.parse(JSON.stringify(this.users))
+            console.log(parsedUsers)
+            this.text = this.parseData(parsedUsers)  
         }
     },
     mounted() {
@@ -77,9 +82,10 @@ export default {
             preference: this.chosenCsvAttributes[2],
         }
     },
-    created() {
-        const parsedUsers = JSON.parse(JSON.stringify(this.users))
-        this.text = this.parseData(parsedUsers)  
+    watch: {
+        users: function() {
+            this.updateUsers()
+        }
     }
 }
 </script>

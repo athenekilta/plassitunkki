@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+
+import Papa from 'papaparse'
 
 export default {
 name: 'MainPage',
@@ -18,21 +19,28 @@ methods: {
         this.file = event.target.files[0];
     },
     submitFile(){
-        const formData = new FormData();
-        formData.append('file', this.file);
-        axios.post( '/single-file',
-            formData,
-            {
-            headers: {
-                'Content-Type': 'multipart/form-data'
+        const self = this
+        Papa.parse(this.file, {
+        complete: function(results) {
+            const array = []
+            for (let i in results.data) {
+                array.push(results.data[i].toString().split("\t").map(item => item.replaceAll("\"", "")))
             }
+            const attributes = array[0]
+            array.shift()
+            var arr = [];
+            for (var i=1;i<array.length;i++) {
+                var user=array[i]
+                let json_arr_in = {}
+                for (var j=0;j<attributes.length;j++) {
+                    json_arr_in[attributes[j]] = user[j] 
+                }
+                arr.push(json_arr_in)
             }
-        ).then(function(){
-        console.log('SUCCESS!!');
+
+            self.$emit('newData', arr)
+        }
     })
-    .catch(function(){
-        console.log('FAILURE!!');
-    });
     },
 },
 data() {

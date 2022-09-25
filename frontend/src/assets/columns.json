@@ -1,13 +1,18 @@
 {
     "all_columns": [
-        { "id": "firstname" },
-        { "id": "lastname" },
-        { "id": "nickname" },
-        { "id": "preference" }
+        { "id": "id" },
+        { "id": "Etunimi" },
+        { "id": "Sukunimi" },
+        { "id": "Sähköposti" },
+        { "id": "Ilmoittautumisaika" },
+        { "id": "Telegram" },
+        { "id": "Sähköposti" },
+        { "id": "Sähköposti" }
+
     ],
     "chosen_columns": [
-        { "id": "firstname" },
-        { "id": "lastname" },
-        { "id": "preference" }
+        { "id": "Etunimi" },
+        { "id": "Sukunimi" },
+        { "id": "Sähköposti" }
     ]
 }

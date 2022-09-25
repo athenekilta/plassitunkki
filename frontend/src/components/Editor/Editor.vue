@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <UploadFile />
+    <UploadFile @newData="updateUsers"/>
     <EditUploadedFile :csvAttributes="this.csvAttributes" :chosenCsvAttributes="this.chosenCsvAttributes" :users="this.users"/>
   </div>
 </template>
@@ -8,7 +8,7 @@
 <script>
 import EditUploadedFile from './EditUploadedFile.vue';
 import UploadFile from './UploadFile.vue';
-import users from '../../assets/users.json'
+//import users from '../../assets/users.json'
 import columns from '../../assets/columns.json'
 
 
@@ -18,10 +18,15 @@ export default {
       return {
         csvAttributes: columns.all_columns.map(column => column.id),
         chosenCsvAttributes: columns.chosen_columns.map(column => column.id),
-        users: users.users
+        users: []
       }
     },
-    components: { EditUploadedFile, UploadFile }
+    components: { EditUploadedFile, UploadFile },
+    methods: {
+      updateUsers(value) {
+        this.users = value
+      }
+    }
 }
 </script>
 
