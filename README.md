@@ -24,4 +24,10 @@ Returns the information of the Seating
 POST /new_seating
 Parameters: `name`
 Creates a new Seating object and returns its data
+
+POST /:accessToken/edit/:editToken/revokeAccessToken
+Revokes the access token
+
+POST /:accessToken/edit/:editToken/revokeEditToken
+Revokes the edit token
 ```

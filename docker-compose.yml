@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  vue:
+    build: 
+      context: frontend
+    command: npm run serve
+    container_name: vue
+    working_dir: /frontend
+    ports:
+      - 8080:8080
+  server:
+    build: 
+      context: server
+    command: npm run dev
+    container_name: server
+    working_dir: /server
+    ports:
+      - 3000:3000
