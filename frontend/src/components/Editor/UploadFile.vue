@@ -24,7 +24,7 @@ methods: {
         complete: function(results) {
             const array = []
             for (let i in results.data) {
-                array.push(results.data[i].toString().split("\t").map(item => item.replaceAll("\"", "")))
+                array.push(results.data[i].toString().split(","))
             }
             const attributes = array[0]
             array.shift()
@@ -38,7 +38,7 @@ methods: {
                 }
                 arr.push(json_arr_in)
             }
-
+            console.log(array)
             self.$emit('newData', [arr, attributes])
         }
     })

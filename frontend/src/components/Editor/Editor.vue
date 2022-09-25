@@ -2,12 +2,14 @@
   <div class="main-container">
     <UploadFile @newData="updateUsers"/>
     <EditUploadedFile :users="this.users" :csvAttributes="this.csvAttributes"/>
+    <TableOrder />
   </div>
 </template>
 
 <script>
 import EditUploadedFile from './EditUploadedFile.vue';
 import UploadFile from './UploadFile.vue';
+import TableOrder from './TableOrder.vue';
 //import users from '../../assets/users.json'
 
 
@@ -19,7 +21,7 @@ export default {
         users: []
       }
     },
-    components: { EditUploadedFile, UploadFile },
+    components: { EditUploadedFile, UploadFile, TableOrder },
     methods: {
       updateUsers(value) {
         this.users = value[0]
@@ -39,5 +41,6 @@ export default {
     margin: 0 auto;
     margin-top: 50px;
     padding: 30px 0;
+    min-height: 500px;
 }
 </style>
