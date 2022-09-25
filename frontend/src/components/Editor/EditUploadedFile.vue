@@ -3,19 +3,19 @@
         <div class="edit-attributes">
             <div class="input-container">
                 <label for="first_name">Valitse kenttä, jossa on etunimi</label>
-                <select name="etunimi" id="first_name" :value="defaultFirstNameValue">
+                <select name="etunimi" id="first_name" :value="firstName" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="last_name">Valitse kenttä, jossa on sukunimi</label>
-                <select name="sukunimi" id="last_name" :value="defaultLastNameValue">
+                <select name="sukunimi" id="last_name" :value="lastName" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="preference_field">Valitse kenttä, jossa on pöytätoive</label>
-                <select name="pöytätoive" id="preference_field" :value="defaultPreferenceValue">
+                <select name="pöytätoive" id="preference_field" :value="preference" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select>  
             </div>   
@@ -31,20 +31,24 @@
 export default {
     name: 'MainPage',
     methods: {
-        parseData(array) {
+        parseData() {
+            let array = this.users
             let text = ''
             for (let user in array) {
-                text += array[user][this.defaultFirstNameValue] + "," + array[user][this.defaultLastNameValue] + "," + array[user][this.defaultPreferenceValue] + "\n"
+                text += array[user][this.firstName] + "," + array[user][this.lastName] + "," + array[user][this.preference] + "\n"
             }
+            this.text =  text
             return text
         },
         resizeTextarea(e) {
-            let area = e.target;
-            area.style.overflow = 'hidden';
-            area.style.height = area.scrollHeight + 'px';
-            let text = this.text.split("\n");
-            let length = Math.max(...(text.map(el => el.length)));
-            area.style.width = length*9 + 'px';
+            if(this.text){
+                let area = e.target;
+                area.style.overflow = 'hidden';
+                area.style.height = area.scrollHeight + 'px';
+                let text = this.text.split("\n");
+                let length = Math.max(...(text.map(el => el.length)));
+                area.style.width = length*9 + 'px';
+            }
         }
     },
     mounted() {
@@ -61,9 +65,9 @@ export default {
         return {
             file: '',
             text: '',
-            defaultFirstNameValue: this.chosenCsvAttributes[0],
-            defaultLastNameValue: this.chosenCsvAttributes[1],
-            defaultPreferenceValue: this.chosenCsvAttributes[2],
+            firstName: this.chosenCsvAttributes[0],
+            lastName: this.chosenCsvAttributes[1],
+            preference: this.chosenCsvAttributes[2],
         }
     },
     created() {
