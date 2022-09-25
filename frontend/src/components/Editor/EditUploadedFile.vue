@@ -45,6 +45,7 @@ export default {
                 text += array[user][this.firstName] + "," + array[user][this.lastName] + "," + array[user][this.preference] + "\n"
             }
             this.text =  text
+            this.resizeTextarea()
             return text
         },
         resizeTextarea() {
@@ -53,7 +54,7 @@ export default {
                 let text = this.text.split("\n");
                 let length = Math.max(...(text.map(el => el.length)));
                 area.style.overflow = 'hidden';
-                area.style.height = text.length*13 + 'px';
+                area.style.height = text.length*15 + 'px';
                 area.style.width = length*9 + 'px';
             }
         },
