@@ -11,5 +11,5 @@ npm run serve
 In `server` directory:
 ```bash
 npm install
-npm start
+npm run dev
 ```
