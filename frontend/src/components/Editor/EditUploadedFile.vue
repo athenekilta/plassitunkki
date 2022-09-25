@@ -3,19 +3,19 @@
         <div class="edit-attributes">
             <div class="input-container">
                 <label for="first_name">Valitse kenttä, jossa on etunimi</label>
-                <select name="etunimi" id="first_name" :value="firstName" @change="parseData()">
+                <select name="etunimi" id="first_name" :value="firstName" v-model="firstName" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="last_name">Valitse kenttä, jossa on sukunimi</label>
-                <select name="sukunimi" id="last_name" :value="lastName" @change="parseData()">
+                <select name="sukunimi" id="last_name" :value="lastName" v-model="lastName" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="preference_field">Valitse kenttä, jossa on pöytätoive</label>
-                <select name="pöytätoive" id="preference_field" :value="preference" @change="parseData()">
+                <select name="pöytätoive" id="preference_field" :value="preference" v-model="preference" @change="parseData()">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select>  
             </div>   
