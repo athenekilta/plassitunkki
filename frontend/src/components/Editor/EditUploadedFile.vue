@@ -47,19 +47,18 @@ export default {
             this.text =  text
             return text
         },
-        resizeTextarea(e) {
+        resizeTextarea() {
             if(this.text){
-                let area = e.target;
-                area.style.overflow = 'hidden';
-                area.style.height = area.scrollHeight + 'px';
+                let area = this.$refs.resize
                 let text = this.text.split("\n");
                 let length = Math.max(...(text.map(el => el.length)));
+                area.style.overflow = 'hidden';
+                area.style.height = text.length*13 + 'px';
                 area.style.width = length*9 + 'px';
             }
         },
         updateUsers() {
             const parsedUsers = JSON.parse(JSON.stringify(this.users))
-            console.log(parsedUsers)
             this.firstName = this.csvAttributes[0]
             this.lastName = this.csvAttributes[1]
             this.preference = this.csvAttributes[2]
@@ -86,7 +85,12 @@ export default {
         users: function() {
             this.updateUsers()
         }
-    }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.$refs.resize.dispatchEvent(new Event('keyup'));
+        });
+    },
 }
 </script>
 
@@ -107,6 +111,7 @@ export default {
     }
     .input-container *{
         margin-right: 5px;
+        width: 100px;
     }
 
     .text-area {
