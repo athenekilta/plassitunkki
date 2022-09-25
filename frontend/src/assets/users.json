@@ -1,0 +1,10 @@
+{
+    "users": 
+        [
+            { "firstname": "firstname1", "lastname": "lastname1", "nickname": "nickname1", "preference": "preference1" },
+            { "firstname": "firstname2", "lastname": "lastname2", "nickname": "nickname2", "preference": "preference2" },
+            { "firstname": "firstname3", "lastname": "lastname3", "nickname": "nickname3", "preference": "preference3" },
+            { "firstname": "firstname4", "lastname": "lastname4", "nickname": "nickname4", "preference": "preference4" },
+            { "firstname": "firstname5", "lastname": "lastname5", "nickname": "nickname5", "preference": "preference5" }
+        ]
+}

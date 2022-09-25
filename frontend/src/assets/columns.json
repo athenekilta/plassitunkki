@@ -1,0 +1,13 @@
+{
+    "all_columns": [
+        { "id": "firstname" },
+        { "id": "lastname" },
+        { "id": "nickname" },
+        { "id": "preference" }
+    ],
+    "chosen_columns": [
+        { "id": "firstname" },
+        { "id": "lastname" },
+        { "id": "preference" }
+    ]
+}

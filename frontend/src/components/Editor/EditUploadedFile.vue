@@ -3,19 +3,19 @@
         <div class="edit-attributes">
             <div class="input-container">
                 <label for="first_name">Valitse kenttä, jossa on etunimi</label>
-                <select name="etunimi" id="first_name">
+                <select name="etunimi" id="first_name" :value="defaultFirstNameValue">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="last_name">Valitse kenttä, jossa on sukunimi</label>
-                <select name="sukunimi" id="last_name">
+                <select name="sukunimi" id="last_name" :value="defaultLastNameValue">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select> 
             </div>
             <div class="input-container">
                 <label for="preference_field">Valitse kenttä, jossa on pöytätoive</label>
-                <select name="pöytätoive" id="preference_field">
+                <select name="pöytätoive" id="preference_field" :value="defaultPreferenceValue">
                     <option v-for="attribute in csvAttributes" :value="attribute" :key="attribute">{{attribute}}</option>
                 </select>  
             </div>   
@@ -28,30 +28,16 @@
 
 <script>
 
-import axios from 'axios'
 export default {
     name: 'MainPage',
     methods: {
-        handleFileUpload( event ){
-            this.file = event.target.files[0];
-        },
-        submitFile(){
-            const formData = new FormData();
-            formData.append('file', this.file);
-            axios.post( '/single-file',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+        parseData(array) {
+            let text = ''
+            for (let user in array) {
+                text += array[user][this.defaultFirstNameValue] + "," + array[user][this.defaultLastNameValue] + "," + array[user][this.defaultPreferenceValue] + "\n"
             }
-            ).then(function(){
-        console.log('SUCCESS!!');
-        })
-        .catch(function(){
-        console.log('FAILURE!!');
-        });
-    },
+            return text
+        },
         resizeTextarea(e) {
             let area = e.target;
             area.style.overflow = 'hidden';
@@ -68,13 +54,21 @@ export default {
     },
     props: {
         csvAttributes: Array,
-        csvText: String
+        chosenCsvAttributes: Array,
+        users: Array
     },
     data() {
         return {
             file: '',
-            text: this.csvText
+            text: '',
+            defaultFirstNameValue: this.chosenCsvAttributes[0],
+            defaultLastNameValue: this.chosenCsvAttributes[1],
+            defaultPreferenceValue: this.chosenCsvAttributes[2],
         }
+    },
+    created() {
+        const parsedUsers = JSON.parse(JSON.stringify(this.users))
+        this.text = this.parseData(parsedUsers)
     }
 }
 </script>
