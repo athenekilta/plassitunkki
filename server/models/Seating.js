@@ -1,6 +1,19 @@
 const { Sequelize, DataTypes, Model } = require('sequelize')
+const { v4: uuidv4 } = require('uuid')
+
 module.exports = (sequelize) => {
-  class Seating extends Model {}
+  class Seating extends Model {
+    async revokeAccessToken() {
+      return await this.update({
+        accessToken: uuidv4()
+      })
+    }
+    async revokeEditToken() {
+      return await this.update({
+        editToken: uuidv4()
+      })
+    }
+  }
 
   Seating.init({
     name: {
