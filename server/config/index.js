@@ -2,6 +2,7 @@ const env = process.env.NODE_ENV || 'dev'
 
 const config = {
   port: process.env.PORT || 3000,
+  apiBase: '/api/v1/',
   db: {
     dev: {
       dialect: 'sqlite',

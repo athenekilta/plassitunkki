@@ -15,6 +15,8 @@ npm run dev
 ```
 
 ## API documentation
+API base (root) can be set on `config`.
+Default value is `/api/v1/`.
 ```
 GET /:accessToken
 Returns the information of the Seating
