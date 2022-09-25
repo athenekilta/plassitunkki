@@ -21,7 +21,7 @@
             </div>   
         </div> 
         <div class="text-area">
-            <textarea v-model="text"></textarea>  
+            <textarea v-model="text" ref="resize" @focus="resizeTextarea" @keyup="resizeTextarea"></textarea>  
         </div>
     </div>
 </template>
@@ -52,6 +52,19 @@ export default {
         console.log('FAILURE!!');
         });
     },
+        resizeTextarea(e) {
+            let area = e.target;
+            area.style.overflow = 'hidden';
+            area.style.height = area.scrollHeight + 'px';
+            let text = this.text.split("\n");
+            let length = Math.max(...(text.map(el => el.length)));
+            area.style.width = length*9 + 'px';
+        }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.$refs.resize.dispatchEvent(new Event('keyup'));
+        });
     },
     props: {
         csvAttributes: Array,
