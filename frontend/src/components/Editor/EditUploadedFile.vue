@@ -23,6 +23,13 @@
         <div class="text-area">
             <textarea v-model="text" ref="resize" @focus="resizeTextarea" @keyup="resizeTextarea"></textarea>  
         </div>
+        <div class="send-text-information">
+            <div class="input-container">
+                <label for="last_name">Plassin nimi: </label>
+                <input type="text">
+            </div>
+            <button type="button">Plassita</button>
+        </div>
     </div>
 </template>
 
@@ -72,7 +79,7 @@ export default {
     },
     created() {
         const parsedUsers = JSON.parse(JSON.stringify(this.users))
-        this.text = this.parseData(parsedUsers)
+        this.text = this.parseData(parsedUsers)  
     }
 }
 </script>
@@ -98,6 +105,10 @@ export default {
 
     .text-area {
         margin-top: 50px;
+    }
+
+    button {
+        margin-top: 10px;
     }
 
 
