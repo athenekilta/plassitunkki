@@ -28,6 +28,7 @@ methods: {
             }
             const attributes = array[0]
             array.shift()
+            array.pop()
             var arr = [];
             for (var i=1;i<array.length;i++) {
                 var user=array[i]
