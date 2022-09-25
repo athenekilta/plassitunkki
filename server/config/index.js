@@ -1,3 +1,5 @@
+const env = process.env.NODE_ENV || 'dev'
+
 const config = {
   port: process.env.PORT || 3000,
   db: {
@@ -14,6 +16,7 @@ const config = {
       storage: 'db/prod.sqlite',
     },
   },
+  env,
 }
 
 module.exports = config
