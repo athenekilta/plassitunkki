@@ -23,13 +23,6 @@
         <div class="text-area">
             <textarea v-model="text" ref="resize" @focus="resizeTextarea" @keyup="resizeTextarea"></textarea>  
         </div>
-        <div class="send-text-information">
-            <div class="input-container">
-                <label for="last_name">Plassin nimi: </label>
-                <input type="text">
-            </div>
-            <button type="button">Plassita</button>
-        </div>
     </div>
 </template>
 

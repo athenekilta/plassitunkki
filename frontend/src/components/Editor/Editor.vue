@@ -2,7 +2,7 @@
   <div class="main-container">
     <UploadFile @newData="updateUsers"/>
     <EditUploadedFile :users="this.users" :csvAttributes="this.csvAttributes"/>
-    <TableOrder />
+    <TableOrder :userSize="this.users.length"/>
   </div>
 </template>
 

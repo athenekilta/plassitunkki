@@ -1,29 +1,35 @@
 <template>
-    <div class="table-container">
-        <button @click="add(tableLocation, tableSize)">Lisää pöytä</button>
+    <div class="table-container" v-if="this.userSize">
+        <button @click="addTable(tableLocation, tableSize)">Lisää pöytä</button>
         <input type="number" v-model="tableSize" placeholder="pöydän koko">
-        <input type="number" v-model="tableLocation" placeholder="rivi (1-5)">
+        <input type="number" v-model="tableLocation" placeholder="rivi" min="1" :max="Object.keys(this.lists).length + 1">
         <div class="row">
-        <div class="col-4 table-column" v-for="list in this.lists" :key="list">
-    
-            <draggable
-            id="first"
-            data-source="juju"
-            :list="list"
-            class="list-group"
-            group="a"
-            item-key="name"
-            >
-                <template #item="{ element, index }">
-                    <div class="list-group-item">
-                    {{ element.name }}
-                    <button @click="removeAt(list, index)">X</button>
-                    </div>
-                </template>
-            </draggable>
+            <div class="col-4 table-column" v-for="list in this.lists" :key="list">
+                <draggable
+                id="first"
+                data-source="juju"
+                :list="list"
+                class="list-group"
+                group="a"
+                item-key="name"
+                >
+                    <template #item="{ element, index }">
+                        <div class="list-group-item">
+                        {{ element.name }}
+                        <button @click="removeAt(list, index)">X</button>
+                        </div>
+                    </template>
+                </draggable>
+            </div>
         </div>
     </div>
-    </div>
+    <div class="send-text-information">
+            <div class="input-container">
+                <label for="last_name">Plassin nimi: </label>
+                <input type="text">
+            </div>
+            <button type="button">Plassita</button>
+        </div>
   </template>
   
   <script>
@@ -36,36 +42,43 @@
     components: {
       draggable
     },
+    props: {
+        userSize: Number
+    },
     data() {
       return {
-          lists: {
-            1: [
-                { name: "3", id: 0 },
-                { name: "3", id: 1 },
-                { name: "5", id: 2 }
-            ],
-            2: [
-                { name: "2", id: 3 },
-                { name: "2", id: 4 }
-            ],
-            3: [
-                { name: "2", id: 5 },
-                { name: "2", id: 6 }
-            ],
-            4: [],
-            5: []
-          },
+          lists: {},
           tableSize: '',
           tableLocation: ''
       };
     },
     methods: {
-      add: function(list, size) {
-        this.lists[list].push({ name: size, id: id++ });
+      addTable: function(list, size) {
+        if (list > Object.keys(this.lists).length) {
+            this.lists[list] = [{name: size, id: id++ }]
+        } else {
+            this.lists[list].push({ name: size, id: id++ });
+        }
+        this.tableLocation = ''
       },
       removeAt(list, idx) {
         list.splice(idx, 1);
+        if (Object.keys(list).length == 0) delete this.lists.list;
+      },
+      updateTables() {
+          let i = 1
+          while (i - 1 < this.userSize) {
+            const tablePositioning = Math.ceil(i / 18)
+            if (this.userSize - i >= 6) this.addTable(tablePositioning,6)
+            else this.addTable(tablePositioning, this.userSize - i + 1)
+            i += 6
+          }
+      }
     },
+    watch: {
+        userSize: function() {
+            this.updateTables()
+        }
     }
   };
   </script>
@@ -73,12 +86,11 @@
       .row {
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
         background-color: #5E8C64;
-        max-width: 70%;
+        max-width: 80%;
         max-height: 40%;
         margin: 30px auto;
+        overflow-x: scroll;
       }
       .table-column {
           padding: 10px;
@@ -88,8 +100,13 @@
           padding: 2px 10px;
           margin: 5px;
           border-radius: 4px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: space-between
       }
       .table-container {
           margin-top: 20px;
+          width: 100%;
       }
   </style>
