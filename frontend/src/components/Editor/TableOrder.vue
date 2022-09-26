@@ -1,8 +1,28 @@
 <template>
     <div class="table-container" v-if="this.userSize">
-        <button @click="addTable(tableLocation, tableSize)">Lisää pöytä</button>
-        <input type="number" v-model="tableSize" placeholder="pöydän koko">
-        <input type="number" v-model="tableLocation" placeholder="rivi" min="1" :max="Object.keys(this.lists).length + 1">
+        <div class="automated_table_order_info">
+            <p><b>Automaattinen pöytien muodostus</b></p>
+            <div>
+                <label>Valitse haluttu pöytien koko</label>
+                <input type="number" v-model="automated_table_size" placeholder="pöytien koko">
+            </div>
+            <div>
+                <label>Valitse haluttu sarakkeen koko</label>
+                <input type="number" v-model="automated_column_size" placeholder="sarakeen koko" min="1">
+            </div>
+        </div>
+        <div class="automated_table_order_info">
+            <p><b>Manuaalinen pöydän lisäys</b></p>
+            <div>
+                <label>Valitse haluttu pöydän koko</label>
+                <input type="number" v-model="tableSize" placeholder="pöydän koko">
+            </div>
+            <div>
+                <label>Valitse haluamasi rivi</label>
+                <input type="number" v-model="tableLocation" placeholder="rivi" min="1" :max="Object.keys(this.lists).length + 1">
+            </div>
+            <button @click="addTable(tableLocation, tableSize)">Lisää pöytä</button>
+        </div>
         <div class="row">
             <div class="col-4 table-column" v-for="list in this.lists" :key="list">
                 <draggable
@@ -49,7 +69,9 @@
       return {
           lists: {},
           tableSize: '',
-          tableLocation: ''
+          tableLocation: '',
+          automated_table_size: 6,
+          automated_column_size: 3
       };
     },
     methods: {
@@ -66,19 +88,32 @@
         if (Object.keys(list).length == 0) delete this.lists.list;
       },
       updateTables() {
+          this.emptyTables()
+          const dividend = this.automated_column_size * this.automated_table_size
           let i = 1
           while (i - 1 < this.userSize) {
-            const tablePositioning = Math.ceil(i / 18)
-            if (this.userSize - i >= 6) this.addTable(tablePositioning,6)
+            const tablePositioning = Math.ceil(i / dividend)
+            if (this.userSize - i >= this.automated_table_size) this.addTable(tablePositioning,this.automated_table_size)
             else this.addTable(tablePositioning, this.userSize - i + 1)
-            i += 6
+            i += this.automated_table_size
           }
+      },
+      emptyTables() {
+        for (const key in this.lists) {
+            delete this.lists[key];
+        }
       }
     },
     watch: {
         userSize: function() {
             this.updateTables()
-        }
+        },
+        automated_table_size: function() {
+            this.updateTables()
+        },
+        automated_column_size: function() {
+            this.updateTables()
+        },
     }
   };
   </script>
@@ -108,5 +143,8 @@
       .table-container {
           margin-top: 20px;
           width: 100%;
+      }
+      .automated_table_order_info {
+          margin-top: 20px;
       }
   </style>
