@@ -21,7 +21,7 @@
                 <label>Valitse haluamasi rivi</label>
                 <input type="number" v-model="tableLocation" placeholder="rivi" min="1" :max="Object.keys(this.lists).length + 1">
             </div>
-            <button @click="addTable(tableLocation, tableSize)">Lisää pöytä</button>
+            <button @click="addTableAndEmitData(tableLocation, tableSize)">Lisää pöytä</button>
         </div>
         <div class="row">
             <div class="col-4 table-column" v-for="list in this.lists" :key="list">
@@ -43,18 +43,10 @@
             </div>
         </div>
     </div>
-    <div class="send-text-information">
-            <div class="input-container">
-                <label for="last_name">Plassin nimi: </label>
-                <input type="text">
-            </div>
-            <button type="button">Plassita</button>
-        </div>
   </template>
   
   <script>
   import draggable from 'vuedraggable';
-  let id = 1;
   export default {
     name: "two-list-headerslots",
     display: "Two list header slot",
@@ -71,50 +63,60 @@
           tableSize: '',
           tableLocation: '',
           automated_table_size: 6,
-          automated_column_size: 3
+          automated_column_size: 3,
+          id: 1
       };
     },
     methods: {
-      addTable: function(list, size) {
-        if (list > Object.keys(this.lists).length) {
-            this.lists[list] = [{name: size, id: id++ }]
-        } else {
-            this.lists[list].push({ name: size, id: id++ });
+        addTableAndEmitData(list, size) {
+            this.addTable(list, size)
+            this.emitData()
+        },
+        addTable(list, size) {
+            if (list > Object.keys(this.lists).length) {
+                this.lists[list] = [{name: size, id: this.id++ }]
+            } else {
+                this.lists[list].push({ name: size, id: this.id++ });
+            }
+            this.tableLocation = ''
+        },
+        removeAt(list, idx) {
+            list.splice(idx, 1);
+            if (Object.keys(list).length == 0) delete this.lists.list;
+            this.emitData()
+        },
+        updateTables() {
+            this.emptyTables()
+            const dividend = this.automated_column_size * this.automated_table_size
+            let i = 1
+            while (i - 1 < this.userSize) {
+                const tablePositioning = Math.ceil(i / dividend)
+                if (this.userSize - i >= this.automated_table_size) this.addTable(tablePositioning,this.automated_table_size)
+                else this.addTable(tablePositioning, this.userSize - i + 1)
+                i += this.automated_table_size
+            }
+            this.emitData()
+        },
+        emptyTables() {
+            for (const key in this.lists) {
+                delete this.lists[key];
+            }
+        },
+        emitData() {
+            this.$emit('updateTableList', this.lists)
         }
-        this.tableLocation = ''
-      },
-      removeAt(list, idx) {
-        list.splice(idx, 1);
-        if (Object.keys(list).length == 0) delete this.lists.list;
-      },
-      updateTables() {
-          this.emptyTables()
-          const dividend = this.automated_column_size * this.automated_table_size
-          let i = 1
-          while (i - 1 < this.userSize) {
-            const tablePositioning = Math.ceil(i / dividend)
-            if (this.userSize - i >= this.automated_table_size) this.addTable(tablePositioning,this.automated_table_size)
-            else this.addTable(tablePositioning, this.userSize - i + 1)
-            i += this.automated_table_size
-          }
-      },
-      emptyTables() {
-        for (const key in this.lists) {
-            delete this.lists[key];
+        },
+        watch: {
+            userSize: function() {
+                this.updateTables()
+            },
+            automated_table_size: function() {
+                this.updateTables()
+            },
+            automated_column_size: function() {
+                this.updateTables()
+            }
         }
-      }
-    },
-    watch: {
-        userSize: function() {
-            this.updateTables()
-        },
-        automated_table_size: function() {
-            this.updateTables()
-        },
-        automated_column_size: function() {
-            this.updateTables()
-        },
-    }
   };
   </script>
   <style scoped>

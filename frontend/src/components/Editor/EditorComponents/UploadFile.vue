@@ -38,7 +38,6 @@ methods: {
                 }
                 arr.push(json_arr_in)
             }
-            console.log(array)
             self.$emit('newData', [arr, attributes])
         }
     })

@@ -2,16 +2,12 @@
   <div class="main-container">
     <UploadFile @newData="updateUsers"/>
     <EditUploadedFile :users="this.users" :csvAttributes="this.csvAttributes"/>
-    <TableOrder :userSize="this.users.length"/>
   </div>
 </template>
 
 <script>
-import EditUploadedFile from './EditUploadedFile.vue';
-import UploadFile from './UploadFile.vue';
-import TableOrder from './TableOrder.vue';
-//import users from '../../assets/users.json'
-
+import EditUploadedFile from './EditorComponents/EditUploadedFile.vue';
+import UploadFile from './EditorComponents/UploadFile.vue';
 
 export default {
     name: "MainPage",
@@ -21,7 +17,7 @@ export default {
         users: []
       }
     },
-    components: { EditUploadedFile, UploadFile, TableOrder },
+    components: { EditUploadedFile, UploadFile },
     methods: {
       updateUsers(value) {
         this.users = value[0]
@@ -30,17 +26,13 @@ export default {
     }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
-.main-container {
+  .main-container {
     background-color: white;
     width: 70%;
     margin: 0 auto;
     margin-top: 50px;
     padding: 30px 0;
     min-height: 500px;
-}
+  }
 </style>
