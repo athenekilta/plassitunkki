@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const db = require('../../models')
 const setEditableSeating = require('../middleware/setEditableSeating')
+const { groupGuests, firstFitOffline } = require('../../utils')
 
 router.post('/new_seating', async (req, res) => {
   const name = req.body.name
@@ -13,7 +14,15 @@ router.post('/new_seating', async (req, res) => {
   const seating = await db.Seating.create({
     name,
   })
-  res.json(seating)
+  const tables = req.body.tables;
+  const listTables = [];
+  for (const prop in tables) {
+    listTables.push(...tables[prop]);
+  }
+
+  const groups = groupGuests(req.body.users);
+  const sorted = firstFitOffline(groups, listTables)
+  res.json(sorted)
 })
 
 const revokeToken = async (type, req, res) => {
