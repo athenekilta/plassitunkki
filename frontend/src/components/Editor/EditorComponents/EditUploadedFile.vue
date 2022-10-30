@@ -84,7 +84,7 @@ export default {
                 try {
                     const response = await axios({
                         method: 'post',
-                        url: "http://localhost:3000/new_seating",
+                        url: "http://localhost:3000/api/v1/new_seating",
                         data: {
                             "users": userInformation, 
                             "tables": this.tableList,
@@ -92,8 +92,8 @@ export default {
                         }
                     })
                     const url = await response.data
+                    console.log(url);
                     this.showMessage = "Ohjataan uudelle sivulle..."
-                    this.router.push(url)
                 } catch (error) {
                 this.showMessage = error.message
                 }
