@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const config = require('../config')
 const seatings = require('./seatings')
+const cors = require('cors')
 
 const api = express()
 
@@ -11,6 +12,7 @@ api.get('/', (req, res) => {
   })
 })
 
+api.use(cors())
 api.use(express.json())
 api.use(morgan('dev'))
 api.use(config.apiBase, seatings)
